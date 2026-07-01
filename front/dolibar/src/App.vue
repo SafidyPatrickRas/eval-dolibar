@@ -1,47 +1,76 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+// Récupère dynamiquement le layout (défaut 'front' si rien n'est précisé)
+const layout = computed(() => route.meta.layout || 'front')
+
+const isLogined = ()=>{
+  if(localStorage.getItem("id_user_logined")){
+    return true
+  }
+  return false
+}
+
+const isSalaryRoute = computed(() => {
+  return route.name && route.name.toString().includes('salaries')
+})
+
+const isUserRoute = computed(() => {
+  return route.name && route.name.toString().includes('users')
+})
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <div>
+    <nav v-if="layout === 'front'">
+      <router-link to="/index">Accueil</router-link>
+      <router-link to="/front/salaries">Salaries</router-link>
+    </nav>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
+    <nav v-else-if="layout === 'back'" class="admin-nav">
+      <router-link to="/back/index">Admin</router-link>
+      <router-link to="/back/reinitialisation">Reinitialisation</router-link>
+      <router-link to="/back/users">Users</router-link>
+      <router-link to="/back/dashboard">Dashboard</router-link>
+      <router-link to="/back/import">Import</router-link>
 
-  <main>
-    <TheWelcome />
-  </main>
+      <div v-if="isLogined">
+        Utilisateur connecter
+        <router-link to="/back/logout">Logout</router-link>
+      </div>
+      <div v-else>
+        Login
+      </div>
+    </nav>
+
+
+
+
+
+
+
+    <nav v-if="isSalaryRoute" class="salary-subnav">
+      <router-link to="/front/salaries">Liste des salaires</router-link>
+      <router-link to="/front/salaries/create">Ajouter un salaire</router-link>
+    </nav>
+
+    <nav v-if="isUserRoute" class="salary-subnav">
+      <router-link to="/back/users">Liste des utilisateurs</router-link>
+      <!-- <router-link to="/front/salaries/create">Ajouter un salaire</router-link> -->
+    </nav>
+
+    <router-view />
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.salary-subnav {
+  background: #f4f4f4;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
 }
 </style>
