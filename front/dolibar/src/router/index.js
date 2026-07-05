@@ -55,6 +55,15 @@
               },
             ]
           },
+          {
+            path: 'payement',
+            children: [{
+              path: 'multipleCreate',
+              name: 'front.salaries.payement.multipleForm',
+              component: () => import('@/views/payment/PayementGeneraliseForm.vue'),
+            }]
+
+          }
         ]
       },
       // Exemple de route Back
@@ -69,7 +78,7 @@
               layout: 'other'
             },
           },
-           {
+          {
             path: 'logout',
             name: 'back.logout',
             component: () => import('@/views/back/logout.vue'),
@@ -77,7 +86,28 @@
               layout: 'other'
             },
           },
-           {
+          {
+            path: 'holidays',
+            children: [{
+                path: '',
+                name: 'back.holidays',
+                component: () => import('@/views/holiday/HolidayView.vue'),
+                meta: {
+                  layout: 'back'
+                },
+              },
+              {
+                path: 'form',
+                name: 'back.form',
+                component: () => import('@/views/holiday/HolidayFormView.vue'),
+                meta: {
+                  layout: 'back'
+                },
+              },
+            ],
+
+          },
+          {
             path: 'index',
             name: 'back.index',
             component: () => import('@/views/back/index.vue'),
@@ -120,13 +150,36 @@
                   layout: 'back'
                 },
               },
-              // {
-              // path : 'details/:id',
-              // name : 'back.users.details'
-              // }
+              {
+                path: 'details/:id',
+                name: 'back.users.details',
+                component: () => import('@/views/user/UserDetailsView.vue'),
+                meta: {
+                  layout: 'back'
+                },
+              }
 
             ]
-
+          },
+          {
+            path: 'jobs',
+            children: [{
+                path: '',
+                name: 'back.jobs',
+                component: () => import("@/views/job/JobView.vue"),
+                meta: {
+                  layout: ' back'
+                }
+              },
+              {
+                path: 'create',
+                name: 'back.jobs.create',
+                component: () => import("@/views/job/JobFormView.vue"),
+                meta: {
+                  layout: ' back'
+                }
+              },
+            ]
           }
         ]
       }

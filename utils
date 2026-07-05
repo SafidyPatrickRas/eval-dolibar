@@ -1,0 +1,29 @@
+// Dans votre script setup
+const periods = ref({}); // Stockera { salaryId: { start, end } }
+
+// Fonction pour calculer toutes les périodes d'un coup
+const updatePeriodsForMonth = (month, year) => {
+  salarys.value.forEach(salary => {
+    // On utilise la logique de calcul que nous avons définie précédemment
+    const period = calculatePeriod(salary, month, year); 
+    periods.value[salary.id] = period;
+  });
+};
+
+
+<tr v-for="salary in salarys" :key="salary.id">
+  <td>{{ salary.ref }}</td>
+  <td>{{ periods[salary.id]?.startDate.toLocaleDateString() }}</td>
+  <td>{{ periods[salary.id]?.endDate.toLocaleDateString() }}</td>
+</tr>
+
+
+nouvelle page ( payement multiple par moi selectionnee ) formulaire mis selection mois sy annee , de input ampidirina montant , de arakarakin reglement oe iza payen alo , fenoina ve , mis poucentage mande , .... 
+
+
+
+1772323200
+2026-03-01
+datesp : 1772319600 
+
+

@@ -36,6 +36,7 @@ const isUserRoute = computed(() => {
       <router-link to="/back/users">Users</router-link>
       <router-link to="/back/dashboard">Dashboard</router-link>
       <router-link to="/back/import">Import</router-link>
+      <router-link to="/back/holidays">Holidays</router-link>
 
       <div v-if="isLogined">
         Utilisateur connecter

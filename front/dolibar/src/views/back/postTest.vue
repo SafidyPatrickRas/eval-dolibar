@@ -26,6 +26,8 @@ onMounted(async () => {
     //const note_private = "Salaire de test";
 //
     //await salaryStore.saveSalary(fk_user , label , date_debut , date_fin , amount , note_private)
+
+    
 })
 
 </script>

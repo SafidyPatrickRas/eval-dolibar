@@ -24,25 +24,21 @@ export const useUserStore = defineStore('user', {
     async fetchUserById(id){
       this.loading = true
       this.error = ''
-      let user = null
 
       try {
         const response = await userAPI.getById(id)
-        // Normaliser si l'API retourne un wrapper
-        if (response && Array.isArray(response.users)) {
-          user = response.users
-        } else if (Array.isArray(response)) {
-          user = response
-        } else {
-          user = null
-        }
+                
+                // LOGUEZ CECI : c'est crucial
+                console.log("DEBUG API RESPONSE :", response); 
+        
+                // Si l'API retourne directement l'objet { id: 1, name: "Noël", ... }
+                // alors Array.isArray(response) sera FAUX.
+                return response.data || response; // Ajustez selon la structure réelle
       } catch (error) {
         this.error = (error && error.message) || 'Erreur lors du chargement'
       } finally {
         this.loading = false
       }
-
-      return user
     },
     async fetchUser(options = {}) {
       this.loading = true

@@ -11,10 +11,14 @@
             <input id="file2" type="file" accept=".csv,text/csv" @change="onFile2Change" />
             <div v-if="store.file2">Fichier sélectionné: {{ store.file2.name }}</div>
         </div>
+        <div style="margin-bottom: 8px">
+            <label for="file3">Fichier 3 (image) : </label>
+            <input id="file3" type="file" accept="" @change="onFile3Change" />
+            <div v-if="store.file3">Fichier sélectionné: {{ store.file3.name }}</div>
+        </div>
         <button :disabled="store.importing" @click="store.importAll">
             {{ store.importing ? "Importation en cours..." : "Importer" }}
         </button>
-
     </div>
 </template>~        
 <script setup>
