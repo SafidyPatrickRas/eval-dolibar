@@ -73,12 +73,27 @@
 
 ./create-crud.sh bankaccount bankaccounts /bankaccounts
 
+./create-crud.sh holiday holidays /holidays
+
+./create-crud.sh job jobs /jobs
+
+./create-crud.sh documents document /documents
+
+/documents/upload
+
+
+
+
+
 
 /home/safidy/Documents/fianarana/S6/eval-dolibar/front/dolibar
 npm run dev
 
 /home/safidy/Documents/fianarana/S6/eval-dolibar/sqlite/sqlite
 ./mvnw spring-boot:run
+
+/home/safidy/Documents/fianarana/S6/eval-dolibar/reinitialisation
+node reset-api.js
 
 
 sudo /opt/lampp/xampp restart

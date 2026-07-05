@@ -1,10 +1,23 @@
 <template>
   <div>
     <h1>User</h1>
-    nombre {{ items.length }}
-    <ul>
-      <li v-for="item in items" :key="item.id">{{ item.id }} </li>
-    </ul>
+    <table>
+      <tr>
+        <td>id</td>
+        <td>login</td>
+        <td>firstname</td>
+      </tr>
+      <tr v-for="item in items" :key="item.id">
+        <td><router-link
+  :to="{ name: 'back.users.details', params: { id: item.id } }"
+>
+  {{ item.id }}
+</router-link></td>
+        <td>{{ item.login }}</td>
+        <td>{{ item.firstname }}</td>
+      </tr>
+      
+    </table>
   </div>
 </template>
 

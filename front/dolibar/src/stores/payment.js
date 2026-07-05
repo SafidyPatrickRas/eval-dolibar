@@ -32,7 +32,7 @@ export const usePaymentStore = defineStore('payment', {
       }
     },
     // Dans votre store/payment.js
-async createPayement(id_salaire,          ) {
+async createPayement(id_salaire,form) {
   this.loading = true;
   try {
     const response = await dolibarApi.post(`/salaries/${id_salaire}/payments`, form);

@@ -47,29 +47,44 @@ const genderStats = ref([]);
 
 // Calcul des stats par mois (au clic sur le bouton)
 const calculateStats = () => {
-  const groups = salaryStore.items.reduce((acc, s) => {
-    // 1. On applique votre correction : s.datesp + 3600
-    // 2. On multiplie par 1000 pour passer en millisecondes (format JS)
-    const correctedTs = (s.datesp + 3600) * 1000;
-    const date = new Date(correctedTs);
-    
-    // 3. Extraction UTC pour éviter les décalages de fuseau horaire
-    const monthIndex = date.getUTCMonth(); 
-    const year = date.getUTCFullYear();
-    
-    const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
-                        "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-    
-    const monthKey = `${monthNames[monthIndex]} ${year}`;
-    
-    // 4. Cumul des montants
-    acc[monthKey] = (acc[monthKey] || 0) + Number(s.amount);
-    return acc;
-  }, {});
+  const groups = {};
 
-  salaryStats.value = Object.keys(groups).map(month => ({ 
-    month, 
-    total: groups[month] 
+  salaryStore.items.forEach(salary => {
+  const start = new Date((salary.datesp + 3600) * 1000);
+  const end = new Date((salary.dateep + 3600) * 1000);
+
+  const startY = start.getUTCFullYear(); // Variable pour le début de la période du salaire
+  const endY = end.getUTCFullYear();     // Variable pour la fin de la période du salaire
+  const startMonth = start.getUTCMonth() + 1;
+  const endMonth = end.getUTCMonth() + 1;
+
+  // On boucle sur l'année de la boucle (y) par rapport aux refs (startYear.value / endYear.value)
+  for (let y = startY; y <= endY; y++) {
+    
+    // Ici on compare l'année de la boucle 'y' avec les filtres sélectionnés par l'utilisateur
+    if (y < startYear.value || y > endYear.value) continue;
+
+    const firstMonth = (y === startY) ? startMonth : 1;
+    const lastMonth = (y === endY) ? endMonth : 12;
+
+    for (let month = firstMonth; month <= lastMonth; month++) {
+      const amount = salaryStore.getSalaryAmountForMonth(salary, month, y);
+      if (amount === 0) continue;
+
+      const label = new Date(Date.UTC(y, month - 1, 1))
+        .toLocaleString("fr-FR", {
+          month: "long",
+          year: "numeric",
+          timeZone: "UTC"
+        });
+
+      groups[label] = (groups[label] || 0) + amount;
+    }
+  }
+});
+  salaryStats.value = Object.entries(groups).map(([month, total]) => ({
+    month,
+    total,
   }));
 };
 
